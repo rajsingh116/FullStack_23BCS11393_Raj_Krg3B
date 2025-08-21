@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #000000;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --text-color: #f0f0f0;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            grid-template-areas: "sidebar content";
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            grid-area: sidebar;
+            padding: 1rem;
+            background-color: #ccc;
+        }
+
+        .content {
+            grid-area: content;
+            padding: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+                grid-template-areas:
+                    "sidebar"
+                    "content";
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard" data-theme="light">
+        <aside class="sidebar">Sidebar Menu</aside>
+        <main class="content">
+            <div class="card">Dashboard Content</div>
+            <button id="theme-toggle">Toggle Theme</button>
+        </main>
+    </div>
+    <script>
+        const toggle = document.getElementById('theme-toggle');
+        const dashboard = document.querySelector('.dashboard');
+
+        toggle.addEventListener('click', () => {
+            const newTheme = dashboard.dataset.theme === 'light' ? 'dark' : 'light';
+            dashboard.dataset.theme = newTheme;
+            localStorage.setItem('theme', newTheme);
+        });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                dashboard.dataset.theme = savedTheme;
+            }
+        });
+    </script>
+</body>
+
+</html>
